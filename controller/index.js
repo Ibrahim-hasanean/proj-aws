@@ -9,7 +9,7 @@ const moment = require("moment");
 module.exports = {
   signup: async (req, res, next) => {
     let { phone_num, email, password, city, first_name, last_name } = req.body;
-    console.log(phone_num, email, password, city);
+    console.log("in sign up");
     password = bcrypt.hashSync(password, 10);
     let newUser;
     let signup_date = moment().format("MM-DD-YYYY");
@@ -20,6 +20,7 @@ module.exports = {
         password,
         first_name,
         last_name,
+        phone_num,
       });
       sendmail(newUser, "verification code");
     }
@@ -56,8 +57,6 @@ module.exports = {
         lastName: user.last_name,
         email: user.email,
         phone_num: user.phone_num,
-        birthday: user.date_of_birth,
-        city: user.location,
       },
     });
   },
