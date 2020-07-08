@@ -9,7 +9,6 @@ PG_HOST = sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com
 PG_DATABASE = sec_db
 PG_PASSWORD = Eng1061995
 PG_PORT = 5432
-
 */
 sequelize
   .authenticate()

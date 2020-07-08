@@ -30,6 +30,7 @@ module.exports = {
   },
   login: async (req, res, next) => {
     let { phone_num, email, password } = req.body;
+    console.log("from login");
     let user = await User.findOne({
       where: {
         [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
