@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const User = require("./User");
+//const User = require("./User");
 const sequelize = new Sequelize(
   "postgres://postgres_admin:Eng1061995@sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com:5432/sec_db"
 );
