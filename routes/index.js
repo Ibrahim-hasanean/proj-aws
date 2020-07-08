@@ -14,6 +14,7 @@ const {
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.send("home");
+  console.log("from home");
 });
 
 router.post("/signup", signUpValidator, signup);
