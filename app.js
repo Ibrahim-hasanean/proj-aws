@@ -7,7 +7,7 @@ const validator = require("./middleware/validator");
 const cors = require("cors");
 const port = process.env.PORT || 3005;
 var app = express();
-require("./db/sequalize");
+//require("./db/sequalize");
 require("dotenv").config();
 app.use(cors());
 app.use(logger("dev"));
@@ -18,6 +18,15 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize(
   "postgres://postgres_admin:Eng1061995@sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com:5432/sec_db"
 );
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
 app.use("/", indexRouter);
 app.use("/users", validator, usersRouter);
 
