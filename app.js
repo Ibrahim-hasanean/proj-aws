@@ -14,7 +14,10 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize(
+  "postgres://postgres_admin:Eng1061995@sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com:5432/sec_db"
+);
 app.use("/", indexRouter);
 app.use("/users", validator, usersRouter);
 
