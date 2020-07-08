@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendmail = require("../middleware/sendmail");
 const confirmCode = require("../middleware/confirmCode.js");
-const sendSMS = require("../utils/sendSMS.js");
+//const sendSMS = require("../utils/sendSMS.js");
 const Op = require("sequelize").Op;
 const User = require("../db/User");
 const moment = require("moment");
@@ -22,14 +22,6 @@ module.exports = {
         last_name,
       });
       sendmail(newUser, "verification code");
-    } else if (phone_num) {
-      newUser = await User.create({
-        phone_num,
-        password,
-        first_name,
-        last_name,
-      });
-      sendSMS(newUser);
     }
     res
       .status(200)
@@ -161,10 +153,6 @@ module.exports = {
     if (email) {
       sendmail(user, "your code");
     }
-    if (phone) {
-      sendSMS(user);
-    }
-
     res.status(200).json({ status: 200, message: "code is sent" });
   },
   verify: async (req, res, next) => {
