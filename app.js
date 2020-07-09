@@ -32,6 +32,16 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
     },
   },
 });
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
 /*
 postgres :
 PG_USER =  postgres_admin
