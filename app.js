@@ -34,9 +34,8 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
 //"Amazon RDS"
 
 app.get("/", async function (req, res, next) {
-  res.send("home");
   console.log("from home");
-  sequelize
+  let user = await sequelize
     .query("SELECT * FROM users", {
       type: QueryTypes.SELECT,
     })
@@ -46,6 +45,7 @@ app.get("/", async function (req, res, next) {
     .catch((e) => {
       console.log(e);
     });
+  res.send(user);
 });
 
 app.use("/", indexRouter);
