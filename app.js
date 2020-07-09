@@ -36,6 +36,7 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
 sequelize
   .authenticate()
   .then(() => {
+    console.log("before authenticate");
     console.log("Connection has been established successfully.");
   })
   .catch((err) => {
@@ -54,7 +55,7 @@ PG_PORT = 5432
 // dialectOptions: {
 //   ssl: true,
 // }
-app.get("/", async function (req, res, next) {
+app.get("/try", async function (req, res, next) {
   console.log("from home");
   let user = await sequelize
     .query("SELECT * FROM users", {
