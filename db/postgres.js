@@ -1,24 +1,23 @@
 const { Pool, Client } = require("pg");
-const connectionString =
-  "postgresql://postgres_admin:Eng1061995@sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com:5432/sec_db";
 const pool = new Pool({
-  connectionString: connectionString,
+  user: "postgres_admin",
+  host: "sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com",
+  database: "sec_db",
+  password: "Eng1061995",
+  port: 5432,
 });
 pool.query("SELECT NOW()", (err, res) => {
   console.log(err, res);
   pool.end();
 });
 const client = new Client({
-  connectionString: connectionString,
+  user: "postgres_admin",
+  host: "sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com",
+  database: "sec_db",
+  password: "Eng1061995",
+  port: 5432,
 });
-client
-  .connect()
-  .then(() => {
-    console.log("connect");
-  })
-  .catch((e) => {
-    console.log(e);
-  });
+client.connect();
 client.query("SELECT NOW()", (err, res) => {
   console.log(err, res);
   client.end();
