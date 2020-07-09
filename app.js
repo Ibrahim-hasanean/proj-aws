@@ -10,38 +10,13 @@ const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 3005;
 var app = express();
-//require("./db/sequalize");
+require("./db/sequalize");
 //require("./db/postgres");
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-
-var sequelize = new Sequelize("postgres", "postgres", "123456789", {
-  host: "database-1.cs7l9wu7k0p4.us-east-2.rds.amazonaws.com",
-  port: 5432,
-  logging: console.log,
-  maxConcurrentQueries: 100,
-  dialect: "postgres",
-  pool: { maxConnections: 5, maxIdleTime: 30 },
-  language: "en",
-  dialectOptions: {
-    ssl: {
-      ca: "certPathDownloadedFromAWS",
-    },
-  },
-});
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("before authenticate");
-    console.log("Connection has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
 
 /*
 postgres :
