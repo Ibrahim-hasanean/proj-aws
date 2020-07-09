@@ -26,8 +26,20 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
   dialect: "postgres",
   pool: { maxConnections: 5, maxIdleTime: 30 },
   language: "en",
-  ssl: "Amazon RDS",
+  dialectOptions: {
+    ssl: {
+      ca: "certPathDownloadedFromAWS",
+    },
+  },
 });
+/*
+postgres :
+PG_USER =  postgres_admin
+PG_HOST = sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com
+PG_DATABASE = sec_db
+PG_PASSWORD = Eng1061995
+PG_PORT = 5432
+ */
 //"Amazon RDS"
 // dialectOptions: {
 //   ssl: true,
