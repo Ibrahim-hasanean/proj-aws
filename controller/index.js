@@ -8,58 +8,73 @@ const User = require("../db/User");
 const moment = require("moment");
 module.exports = {
   signup: async (req, res, next) => {
-    let { phone_num, email, password, city, first_name, last_name } = req.body;
-    console.log("in sign up");
-    password = bcrypt.hashSync(password, 10);
-    let newUser;
-    let signup_date = moment().format("MM-DD-YYYY");
-    let signup_time = moment().format("LTS");
-    if (email) {
-      newUser = await User.create({
+    try {
+      let {
+        phone_num,
         email,
         password,
+        city,
         first_name,
         last_name,
-        phone_num,
-      });
-      sendmail(newUser, "verification code");
+      } = req.body;
+      console.log("in sign up");
+      password = bcrypt.hashSync(password, 10);
+      let newUser;
+      let signup_date = moment().format("MM-DD-YYYY");
+      let signup_time = moment().format("LTS");
+      if (email) {
+        newUser = await User.create({
+          email,
+          password,
+          first_name,
+          last_name,
+          phone_num,
+        });
+        sendmail(newUser, "verification code");
+      }
+      res
+        .status(200)
+        .json({ status: 200, message: "sign up success and code is sent" });
+    } catch (e) {
+      console.log(e);
     }
-    res
-      .status(200)
-      .json({ status: 200, message: "sign up success and code is sent" });
   },
   login: async (req, res, next) => {
-    let { phone_num, email, password } = req.body;
-    console.log("from login");
-    let user = await User.findOne({
-      where: {
-        [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
-      },
-    });
-    if (!user) return next({ status: 400, message: "user not found" });
-    let truePassword = await bcrypt.compareSync(password, user.password);
-    if (!truePassword)
-      return res
-        .status(401)
-        .json({ status: 401, message: "password is wrong" });
-    if (!user.is_verified)
-      return res
-        .status(400)
-        .json({ status: 400, message: "user email is not verified" });
-    let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "12h",
-    });
-    return res.status(200).json({
-      status: 200,
-      message: "login success",
-      token,
-      user: {
-        firstName: user.first_name,
-        lastName: user.last_name,
-        email: user.email,
-        phone_num: user.phone_num,
-      },
-    });
+    try {
+      let { phone_num, email, password } = req.body;
+      console.log("from login");
+      let user = await User.findOne({
+        where: {
+          [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
+        },
+      });
+      if (!user) return next({ status: 400, message: "user not found" });
+      let truePassword = await bcrypt.compareSync(password, user.password);
+      if (!truePassword)
+        return res
+          .status(401)
+          .json({ status: 401, message: "password is wrong" });
+      if (!user.is_verified)
+        return res
+          .status(400)
+          .json({ status: 400, message: "user email is not verified" });
+      let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "12h",
+      });
+      return res.status(200).json({
+        status: 200,
+        message: "login success",
+        token,
+        user: {
+          firstName: user.first_name,
+          lastName: user.last_name,
+          email: user.email,
+          phone_num: user.phone_num,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
   facebookLogin: async (req, res, next) => {
     let { userData } = req.body;
