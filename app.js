@@ -9,7 +9,7 @@ require("dotenv").config();
 const port = process.env.PORT || 3005;
 var app = express();
 //require("./db/sequalize");
-require("/db/postgres");
+require("./db/postgres");
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
