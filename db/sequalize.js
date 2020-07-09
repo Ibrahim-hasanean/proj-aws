@@ -2,14 +2,6 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize(
   "postgres://postgres_admin:Eng1061995@sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com:5432/sec_db"
 );
-/*
-postgres :
-PG_USER =  postgres_admin
-PG_HOST = sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com
-PG_DATABASE = sec_db
-PG_PASSWORD = Eng1061995
-PG_PORT = 5432
-*/
 sequelize
   .authenticate()
   .then(() => {
@@ -18,4 +10,12 @@ sequelize
   .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
-module.exports = sequelize;
+//module.exports = sequelize;
+/*
+postgres :
+PG_USER =  postgres_admin
+PG_HOST = sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com
+PG_DATABASE = sec_db
+PG_PASSWORD = Eng1061995
+PG_PORT = 5432
+*/
