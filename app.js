@@ -24,15 +24,14 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
   logging: console.log,
   maxConcurrentQueries: 100,
   dialect: "postgres",
-  dialectOptions: {
-    ssl: true,
-  },
   pool: { maxConnections: 5, maxIdleTime: 30 },
   language: "en",
-  ssl: true,
+  ssl: "Amazon RDS",
 });
 //"Amazon RDS"
-
+// dialectOptions: {
+//   ssl: true,
+// }
 app.get("/", async function (req, res, next) {
   console.log("from home");
   let user = await sequelize
