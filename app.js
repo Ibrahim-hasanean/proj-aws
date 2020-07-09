@@ -30,16 +30,7 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
   pool: { maxConnections: 5, maxIdleTime: 30 },
   language: "en",
 });
-
 sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
-const users = sequelize
   .query("SELECT * FROM `users`", {
     type: QueryTypes.SELECT,
   })
