@@ -4,17 +4,41 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const validator = require("./middleware/validator");
+const Sequelize = require("sequelize");
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 3005;
 var app = express();
-require("./db/sequalize");
+//require("./db/sequalize");
 //require("./db/postgres");
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+
+var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
+  host: "sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com",
+  port: 5432,
+  logging: console.log,
+  maxConcurrentQueries: 100,
+  dialect: "postgres",
+  dialectOptions: {
+    ssl: "Amazon RDS",
+  },
+  pool: { maxConnections: 5, maxIdleTime: 30 },
+  language: "en",
+});
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
 app.use("/", indexRouter);
 app.use("/users", validator, usersRouter);
 
