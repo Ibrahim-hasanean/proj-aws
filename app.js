@@ -5,6 +5,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const validator = require("./middleware/validator");
 const Sequelize = require("sequelize");
+const { QueryTypes } = require("sequelize");
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 3005;
@@ -38,7 +39,16 @@ sequelize
   .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
-
+const users = sequelize
+  .query("SELECT * FROM `users`", {
+    type: QueryTypes.SELECT,
+  })
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
 app.use("/", indexRouter);
 app.use("/users", validator, usersRouter);
 
