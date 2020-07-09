@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+
 const signUpValidator = require("../middleware/signUpValidator");
 const {
   signup,
@@ -12,10 +13,10 @@ const {
   newPassword,
 } = require("../controller/index");
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.send("home");
-  console.log("from home");
-});
+// router.get("/", async function (req, res, next) {
+//   res.send("home");
+//   console.log("from home");
+// });
 
 router.post("/signup", signUpValidator, signup);
 router.post("/login", login);

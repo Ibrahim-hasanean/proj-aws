@@ -29,18 +29,25 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
   },
   pool: { maxConnections: 5, maxIdleTime: 30 },
   language: "en",
+  ssl: true,
 });
 //"Amazon RDS"
-sequelize
-  .query("SELECT * FROM `users`", {
-    type: QueryTypes.SELECT,
-  })
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((e) => {
-    console.log(e);
-  });
+
+app.get("/", async function (req, res, next) {
+  res.send("home");
+  console.log("from home");
+  sequelize
+    .query("SELECT * FROM users", {
+      type: QueryTypes.SELECT,
+    })
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 app.use("/", indexRouter);
 app.use("/users", validator, usersRouter);
 
