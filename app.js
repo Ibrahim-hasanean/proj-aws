@@ -18,8 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
-  host: "sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com",
+var sequelize = new Sequelize("postgres", "postgres", "123456789", {
+  host: "database-1.cs7l9wu7k0p4.us-east-2.rds.amazonaws.com",
   port: 5432,
   logging: console.log,
   maxConcurrentQueries: 100,
