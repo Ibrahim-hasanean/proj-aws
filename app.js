@@ -17,19 +17,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-
-/*
-postgres :
-PG_USER =  postgres_admin
-PG_HOST = sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com
-PG_DATABASE = sec_db
-PG_PASSWORD = Eng1061995
-PG_PORT = 5432
- */
-//"Amazon RDS"
-// dialectOptions: {
-//   ssl: true,
-// }
 app.get("/try", async function (req, res, next) {
   console.log("from home");
   let user = await sequelize
