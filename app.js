@@ -5,10 +5,11 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const validator = require("./middleware/validator");
 const cors = require("cors");
+require("dotenv").config();
 const port = process.env.PORT || 3005;
 var app = express();
-require("./db/sequalize");
-require("dotenv").config();
+//require("./db/sequalize");
+
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
