@@ -25,11 +25,12 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
   maxConcurrentQueries: 100,
   dialect: "postgres",
   dialectOptions: {
-    ssl: "Amazon RDS",
+    ssl: true,
   },
   pool: { maxConnections: 5, maxIdleTime: 30 },
   language: "en",
 });
+//"Amazon RDS"
 sequelize
   .query("SELECT * FROM `users`", {
     type: QueryTypes.SELECT,
