@@ -6,6 +6,7 @@ var usersRouter = require("./routes/users");
 const validator = require("./middleware/validator");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
+const User = require("/db/User");
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 4005;
@@ -17,19 +18,10 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-app.get("/try", async function (req, res, next) {
-  console.log("from home");
-  let user = await sequalize
-    .query("SELECT * FROM users", {
-      type: QueryTypes.SELECT,
-    })
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-  res.send(user);
+app.get("/delete", async function (req, res, next) {
+  let email = req.body;
+  let deletedUser = await User.findOne({ where: { email } });
+  res.send(deletedUser);
 });
 
 app.use("/", indexRouter);
