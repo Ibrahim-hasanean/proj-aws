@@ -17,23 +17,12 @@ app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
 app.get("/getusers", async function (req, res, next) {
-  let User = await User.findAll();
-  res.send(User);
-  // let user = await sequalize
-  //   .query("SELECT * FROM users", {
-  //     type: QueryTypes.SELECT,
-  //   })
-  //   .then((result) => {
-  //     res.send(result);
-  //   })
-  //   .catch((e) => {
-  //     console.log(e);
-  //   });
+  let user = await User.findAll();
+  res.send(user);
 });
 app.get("/delete", async (req, res) => {
-  let email = req.body;
+  let { email } = req.body;
   let deletedUser = await User.findOne({ where: { email: String(email) } });
   console.log(deletedUser);
   deletedUser.destroy();
