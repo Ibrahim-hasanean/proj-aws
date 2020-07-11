@@ -7,7 +7,7 @@ const validator = require("./middleware/validator");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
 const cors = require("cors");
-const User = require('./db/User')
+const User = require("./db/User");
 require("dotenv").config();
 const port = process.env.PORT || 4005;
 var app = express();
@@ -32,11 +32,11 @@ app.get("/getusers", async function (req, res, next) {
     });
   res.send(user);
 });
-app.get('/delete',(req,res)=>{
+app.get("/delete", async (req, res) => {
   let email = req.body;
-  let deletedUser = await User.findOne({ where: { email:String(email) } });
+  let deletedUser = await User.findOne({ where: { email: String(email) } });
   res.send(deletedUser);
-})
+});
 app.use("/", indexRouter);
 app.use("/users", validator, usersRouter);
 
