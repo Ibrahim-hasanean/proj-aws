@@ -55,10 +55,10 @@ module.exports = {
         return res
           .status(401)
           .json({ status: 401, message: "password is wrong" });
-      if (!user.is_verified)
-        return res
-          .status(400)
-          .json({ status: 400, message: "user email is not verified" });
+      // if (!user.is_verified)
+      //   return res
+      //     .status(400)
+      //     .json({ status: 400, message: "user email is not verified" });
       let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
         expiresIn: "12h",
       });
