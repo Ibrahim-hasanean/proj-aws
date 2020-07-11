@@ -25,16 +25,16 @@ app.get("/getusers", async function (req, res, next) {
       type: QueryTypes.SELECT,
     })
     .then((result) => {
-      console.log(result);
+      res.send(result);
     })
     .catch((e) => {
       console.log(e);
     });
-  res.send(user);
 });
 app.get("/delete", async (req, res) => {
   let email = req.body;
   let deletedUser = await User.findOne({ where: { email: String(email) } });
+  deletedUser.destroy();
   res.send(deletedUser);
 });
 app.use("/", indexRouter);
