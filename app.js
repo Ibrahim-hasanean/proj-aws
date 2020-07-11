@@ -6,7 +6,7 @@ var usersRouter = require("./routes/users");
 const validator = require("./middleware/validator");
 const Sequelize = require("sequelize");
 const { QueryTypes } = require("sequelize");
-const User = require("/db/User");
+const User = require("./db/User");
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 4005;
