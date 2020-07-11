@@ -19,21 +19,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/getusers", async function (req, res, next) {
-  console.log("from home");
-  let user = await sequalize
-    .query("SELECT * FROM users", {
-      type: QueryTypes.SELECT,
-    })
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+  let User = await User.findAll();
+  res.send(User);
+  // let user = await sequalize
+  //   .query("SELECT * FROM users", {
+  //     type: QueryTypes.SELECT,
+  //   })
+  //   .then((result) => {
+  //     res.send(result);
+  //   })
+  //   .catch((e) => {
+  //     console.log(e);
+  //   });
 });
 app.get("/delete", async (req, res) => {
   let email = req.body;
   let deletedUser = await User.findOne({ where: { email: String(email) } });
+  console.log(deletedUser);
   deletedUser.destroy();
   res.send(deletedUser);
 });
