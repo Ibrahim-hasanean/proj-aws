@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/try", async function (req, res, next) {
   console.log("from home");
-  let user = await sequelize
+  let user = await sequalize
     .query("SELECT * FROM users", {
       type: QueryTypes.SELECT,
     })
