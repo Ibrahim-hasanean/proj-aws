@@ -20,8 +20,8 @@ module.exports = {
       console.log("in sign up");
       password = bcrypt.hashSync(password, 10);
       let newUser;
-      let signup_date = moment().format("MM-DD-YYYY");
-      let signup_time = moment().format("LTS");
+      // let signup_date = moment().format("MM-DD-YYYY");
+      // let signup_time = moment().format("LTS");
       if (email) {
         newUser = await User.create({
           email,

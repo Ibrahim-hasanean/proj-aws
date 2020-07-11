@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     let { email, phone, password } = req.body;
     let user = await User.findOne({
       where: {
-        [Op.or]: [{ email: String(email) }, { phone: String(phone) }],
+        [Op.or]: [{ email: String(email) }, { phone_num: String(phone) }],
       },
     });
     if (user)
