@@ -26,6 +26,9 @@ const User = sequelize.define(
     password: {
       type: Sequelize.TEXT,
     },
+    created_on: {
+      type: Sequelize.TEXT,
+    },
   },
   { timestamps: false, freezeTableName: true }
 );
