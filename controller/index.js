@@ -59,7 +59,7 @@ module.exports = {
       //   return res
       //     .status(400)
       //     .json({ status: 400, message: "user email is not verified" });
-      let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      let token = jwt.sign({ userId: user.id }, "process.env.JWT_SECRET", {
         expiresIn: "12h",
       });
       return res.status(200).json({
