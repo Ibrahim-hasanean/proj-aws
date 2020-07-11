@@ -6,8 +6,8 @@ module.exports = async (user, subject) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.email,
-      pass: process.env.password,
+      user: "ibrahim19970408@gmail.com",
+      pass: "123456.!@#asd",
     },
   });
   let info = await transporter.sendMail({
