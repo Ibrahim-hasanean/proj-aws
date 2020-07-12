@@ -3,7 +3,8 @@ let app = require("../app");
 const User = require("../db/User");
 beforeEach(async () => {
   let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-  return deletedUser.destroy();
+  if (deletedUser) return deletedUser.destroy();
+  return;
 });
 describe("testing sign up cases", () => {
   it("should return success response", async (done) => {
