@@ -140,10 +140,10 @@ module.exports = {
       .json({ status: 200, message: "google login success", token });
   },
   confirmCode: async (req, res, next) => {
-    let { email, phone, code } = req.body;
+    let { email, phone_num, code } = req.body;
     let user = await User.findOne({
       where: {
-        [Op.or]: [{ email: String(email) }, { phone: String(phone) }],
+        [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
       },
     });
     if (!user)
@@ -160,10 +160,10 @@ module.exports = {
     }
   },
   forgetPassword: async (req, res, next) => {
-    let { email, phone } = req.body;
+    let { email, phone_num } = req.body;
     let user = await User.findOne({
       where: {
-        [Op.or]: [{ email: String(email) }, { phone: String(phone) }],
+        [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
       },
     });
     if (email) {
@@ -172,10 +172,10 @@ module.exports = {
     res.status(200).json({ status: 200, message: "code is sent" });
   },
   verify: async (req, res, next) => {
-    let { phone, email, code } = req.body;
+    let { phone_num, email, code } = req.body;
     let user = await User.findOne({
       where: {
-        [Op.or]: [{ email: String(email) }, { phone: String(phone) }],
+        [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
       },
     });
     if (!user)
@@ -193,10 +193,10 @@ module.exports = {
     }
   },
   newPassword: async (req, res, next) => {
-    let { email, phone, code, password } = req.body;
+    let { email, phone_num, code, password } = req.body;
     let user = await User.findOne({
       where: {
-        [Op.or]: [{ email: String(email) }, { phone: String(phone) }],
+        [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
       },
     });
     if (!user)
