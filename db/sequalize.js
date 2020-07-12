@@ -11,16 +11,15 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
     ssl: true,
   },
 });
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("before authenticate");
+const authDB = async function () {
+  try {
+    await sequelize.authenticate();
     console.log("Connection has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
-module.exports = sequelize;
+  } catch (e) {
+    console.error("Unable to connect to the database:", e);
+  }
+};
+module.exports = { sequelize, authDB };
 // /*
 // postgres :
 // PG_USER =  postgres_admin

@@ -4,14 +4,13 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const validator = require("./middleware/validator");
-const Sequelize = require("sequelize");
-const { QueryTypes } = require("sequelize");
 const cors = require("cors");
 const User = require("./db/User");
 require("dotenv").config();
 const port = process.env.PORT || 4005;
 var app = express();
-const sequalize = require("./db/sequalize");
+const { sequalize, authDB } = require("./db/sequalize");
+authDB();
 //require("./db/postgres");
 app.use(cors());
 app.use(logger("dev"));
@@ -40,6 +39,6 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(port, () => {
-  console.log("listen on 3000");
+  console.log(`listen on ${port}`);
 });
 module.exports = app;
