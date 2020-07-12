@@ -1,16 +1,93 @@
 let request = require("supertest");
 let app = require("../app");
+const User = require('../db/User')
+beforeEach(()=>{
+  let deletedUser = await User.findOne({ where: { email: String(email) } });
+   return deletedUser.destroy();
+   
+})
 describe("testing sign up cases", () => {
   it("should return success response", async (done) => {
     let response = await request(app).post("/signup").send({
-      email: "imh19970408@gmail.com",
+      email: "test@tes.com",
       password: "123455789",
       first_name: "ibrahim",
       last_name: "hasan",
-      phone_num: "059711111",
+      phone_num: "05978888",
     });
     expect(response.status).toBe(200);
-    expect(response.message).toContain("sign up success and code is sent");
+    expect(response.body.message).toBe("sign up success and code is sent");
+    done();
+  });
+  it("should return conflict 409 response", async (done) => {
+    let response = await request(app).post("/signup").send({
+      email: "test@tes.com",
+      password: "123455789",
+      first_name: "ibrahim",
+      last_name: "hasan",
+      phone_num: "05978888",
+    });
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe("user is already signed up");
+    done();
+  });
+  it("should return not valid email 400 response", async (done) => {
+    let response = await request(app).post("/signup").send({
+      email: "imh199704",
+      password: "123455789",
+      first_name: "ibrahim",
+      last_name: "hasan",
+      phone_num: "05978888",
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("email is not valid");
+    done();
+  });
+  it("should return 400 not password is required response", async (done) => {
+    let response = await request(app).post("/signup").send({
+      email: "test@tes.com",
+      first_name: "ibrahim",
+      last_name: "hasan",
+      phone_num: "05978888",
+    });
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe("password is required");
+    done();
+  });
+  it("should return 401 password must be more 8 character response", async (done) => {
+    let response = await request(app).post("/signup").send({
+      email: "test@tes.com",
+      first_name: "ibrahim",
+      last_name: "hasan",
+      phone_num: "05971111",
+    });
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe("password must be 8 character");
+    done();
+  });
+  it("should return 401 password must contain numbers and letters response", async (done) => {
+    let response = await request(app).post("/signup").send({
+      email: "test@tes.com",
+      first_name: "ibrahim",
+      last_name: "hasan",
+      phone_num: "05971111",
+    });
+    expect(response.status).toBe(401);
+    expect(response.body.message).toBe(
+      "password must contain numbers and letters"
+    );
+    done();
+  });
+  it("should return 400 not valid phone number response", async (done) => {
+    let response = await request(app).post("/signup").send({
+      email: "test@tes.com",
+      password: "123455789",
+      first_name: "ibrahim",
+      last_name: "hasan",
+      phone_num: "05975555asd5",
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("phone is not valid");
     done();
   });
 });

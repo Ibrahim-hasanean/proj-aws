@@ -31,7 +31,6 @@ app.get("/getusers", async function (req, res, next) {
 app.get("/delete", async (req, res) => {
   let { email } = req.body;
   let deletedUser = await User.findOne({ where: { email: String(email) } });
-  console.log(deletedUser);
   deletedUser.destroy();
   res.send(deletedUser);
 });
