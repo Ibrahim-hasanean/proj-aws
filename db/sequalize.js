@@ -11,15 +11,8 @@ var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
     ssl: true,
   },
 });
-const authDB = async function () {
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (e) {
-    console.error("Unable to connect to the database:", e);
-  }
-};
-module.exports = { sequelize, authDB };
+
+module.exports = sequelize;
 // /*
 // postgres :
 // PG_USER =  postgres_admin

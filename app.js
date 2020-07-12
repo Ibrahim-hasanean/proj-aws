@@ -9,8 +9,16 @@ const User = require("./db/User");
 require("dotenv").config();
 const port = process.env.PORT || 4005;
 var app = express();
-const { sequalize, authDB } = require("./db/sequalize");
-authDB();
+const sequalize = require("./db/sequalize");
+sequalize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((e) => {
+    console.error("Unable to connect to the database:", e);
+  });
+
 //require("./db/postgres");
 app.use(cors());
 app.use(logger("dev"));
