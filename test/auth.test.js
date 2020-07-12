@@ -7,23 +7,6 @@ const User = require("../db/User");
 //   return;
 // });
 describe("testing sign up cases", () => {
-  beforeEach(async () => {
-    let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-    if (deletedUser) deletedUser.destroy();
-    return;
-  });
-  it("should return success response", async (done) => {
-    let response = await request(app).post("/signup").send({
-      email: "test@test.com",
-      password: "123455789",
-      first_name: "ibrahim",
-      last_name: "hasan",
-      phone_num: "05978888",
-    });
-    expect(response.status).toBe(200);
-    expect(response.body.message).toContain("sign up success and code is sent");
-    done();
-  });
   it("should return conflict 409 response", async (done) => {
     let response = await request(app).post("/signup").send({
       email: "imh19970408@gmail.com",
@@ -95,6 +78,18 @@ describe("testing sign up cases", () => {
     });
     expect(response.status).toBe(400);
     expect(response.body.message).toContain("phone is not valid");
+    done();
+  });
+  it("should return success response", async (done) => {
+    let response = await request(app).post("/signup").send({
+      email: "test@test.com",
+      password: "123455789",
+      first_name: "ibrahim",
+      last_name: "hasan",
+      phone_num: "05978888",
+    });
+    expect(response.status).toBe(200);
+    expect(response.body.message).toContain("sign up success and code is sent");
     done();
   });
 });
