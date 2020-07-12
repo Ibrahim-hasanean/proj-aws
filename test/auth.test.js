@@ -1,15 +1,14 @@
 let request = require("supertest");
 let app = require("../app");
-const User = require('../db/User')
-beforeEach(()=>{
-  let deletedUser = await User.findOne({ where: { email: String(email) } });
-   return deletedUser.destroy();
-   
-})
+const User = require("../db/User");
+beforeEach(async () => {
+  let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
+  return deletedUser.destroy();
+});
 describe("testing sign up cases", () => {
   it("should return success response", async (done) => {
     let response = await request(app).post("/signup").send({
-      email: "test@tes.com",
+      email: "test@test.com",
       password: "123455789",
       first_name: "ibrahim",
       last_name: "hasan",
@@ -21,7 +20,7 @@ describe("testing sign up cases", () => {
   });
   it("should return conflict 409 response", async (done) => {
     let response = await request(app).post("/signup").send({
-      email: "test@tes.com",
+      email: "imh19970408@gmail.com",
       password: "123455789",
       first_name: "ibrahim",
       last_name: "hasan",
