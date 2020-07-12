@@ -7,9 +7,12 @@ const User = require("../db/User");
 //   return;
 // });
 describe("testing sign up cases", () => {
-  it("should return success response", async (done) => {
+  beforeEach(async () => {
     let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-    if (deletedUser) return deletedUser.destroy();
+    if (deletedUser) deletedUser.destroy();
+    return;
+  });
+  it("should return success response", async (done) => {
     let response = await request(app).post("/signup").send({
       email: "test@test.com",
       password: "123455789",
@@ -22,8 +25,6 @@ describe("testing sign up cases", () => {
     done();
   });
   it("should return conflict 409 response", async (done) => {
-    let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-    if (deletedUser) return deletedUser.destroy();
     let response = await request(app).post("/signup").send({
       email: "imh19970408@gmail.com",
       password: "123455789",
@@ -36,8 +37,6 @@ describe("testing sign up cases", () => {
     done();
   });
   it("should return not valid email 400 response", async (done) => {
-    let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-    if (deletedUser) return deletedUser.destroy();
     let response = await request(app).post("/signup").send({
       email: "imh199704",
       password: "123455789",
@@ -50,8 +49,6 @@ describe("testing sign up cases", () => {
     done();
   });
   it("should return 400 not password is required response", async (done) => {
-    let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-    if (deletedUser) return deletedUser.destroy();
     let response = await request(app).post("/signup").send({
       email: "test@tes.com",
       first_name: "ibrahim",
@@ -63,8 +60,6 @@ describe("testing sign up cases", () => {
     done();
   });
   it("should return 401 password must be more 8 character response", async (done) => {
-    let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-    if (deletedUser) return deletedUser.destroy();
     let response = await request(app).post("/signup").send({
       email: "test@tes.com",
       first_name: "ibrahim",
@@ -77,8 +72,6 @@ describe("testing sign up cases", () => {
     done();
   });
   it("should return 401 password must contain numbers and letters response", async (done) => {
-    let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-    if (deletedUser) return deletedUser.destroy();
     let response = await request(app).post("/signup").send({
       email: "test@tes.com",
       first_name: "ibrahim",
@@ -93,8 +86,6 @@ describe("testing sign up cases", () => {
     done();
   });
   it("should return 400 not valid phone number response", async (done) => {
-    let deletedUser = await User.findOne({ where: { email: "test@test.com" } });
-    if (deletedUser) return deletedUser.destroy();
     let response = await request(app).post("/signup").send({
       email: "test@tes.com",
       password: "123455789",
