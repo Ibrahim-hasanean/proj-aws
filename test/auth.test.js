@@ -7,9 +7,21 @@ const User = require("../db/User");
 //   return;
 // });
 describe("testing sign up cases", () => {
+  it("should return success response", async (done) => {
+    let response = await request(app).post("/signup").send({
+      email: "test@test.com",
+      password: "123455789",
+      first_name: "ibrahim",
+      last_name: "hasan",
+      phone_num: "05978888",
+    });
+    expect(response.status).toBe(200);
+    expect(response.body.message).toContain("sign up success and code is sent");
+    done();
+  });
   it("should return conflict 409 response", async (done) => {
     let response = await request(app).post("/signup").send({
-      email: "imh19970408@gmail.com",
+      email: "test@test.com",
       password: "123455789",
       first_name: "ibrahim",
       last_name: "hasan",
@@ -33,7 +45,7 @@ describe("testing sign up cases", () => {
   });
   it("should return 400 not password is required response", async (done) => {
     let response = await request(app).post("/signup").send({
-      email: "test@tes.com",
+      email: "test@tesp.com",
       first_name: "ibrahim",
       last_name: "hasan",
       phone_num: "05978888",
@@ -44,7 +56,7 @@ describe("testing sign up cases", () => {
   });
   it("should return 401 password must be more 8 character response", async (done) => {
     let response = await request(app).post("/signup").send({
-      email: "test@tes.com",
+      email: "test@tesmm.com",
       first_name: "ibrahim",
       password: "123",
       last_name: "hasan",
@@ -56,7 +68,7 @@ describe("testing sign up cases", () => {
   });
   it("should return 401 password must contain numbers and letters response", async (done) => {
     let response = await request(app).post("/signup").send({
-      email: "test@tes.com",
+      email: "test@testtt.com",
       first_name: "ibrahim",
       password: "123456789",
       last_name: "hasan",
@@ -70,7 +82,7 @@ describe("testing sign up cases", () => {
   });
   it("should return 400 not valid phone number response", async (done) => {
     let response = await request(app).post("/signup").send({
-      email: "test@tes.com",
+      email: "test@teees.com",
       password: "123455789",
       first_name: "ibrahim",
       last_name: "hasan",
@@ -78,18 +90,6 @@ describe("testing sign up cases", () => {
     });
     expect(response.status).toBe(400);
     expect(response.body.message).toContain("phone is not valid");
-    done();
-  });
-  it("should return success response", async (done) => {
-    let response = await request(app).post("/signup").send({
-      email: "test@test.com",
-      password: "123455789",
-      first_name: "ibrahim",
-      last_name: "hasan",
-      phone_num: "05978888",
-    });
-    expect(response.status).toBe(200);
-    expect(response.body.message).toContain("sign up success and code is sent");
     done();
   });
 });
