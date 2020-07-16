@@ -4,4 +4,8 @@ var router = express.Router();
 router.get("/private", function (req, res, next) {
   res.send(`herllo from private route mr ${req.user.first_name}`);
 });
+router.get("/profile", function (req, res, next) {
+  res.send(`herllo from profile route mr ${req.user.first_name}`);
+});
+
 module.exports = router;
