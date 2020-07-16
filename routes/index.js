@@ -18,6 +18,10 @@ router.get("/", async function (req, res, next) {
   console.log("from home");
 });
 
+router.get("/aboute", async function (req, res, next) {
+  res.send("boute");
+});
+
 router.post("/signup", signUpValidator, signup);
 router.post("/login", login);
 router.post("/facebooklogin", facebookLogin);
