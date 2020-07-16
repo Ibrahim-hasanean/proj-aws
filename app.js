@@ -7,7 +7,7 @@ const validator = require("./middleware/validator");
 const cors = require("cors");
 const User = require("./db/User");
 require("dotenv").config();
-const port = process.env.PORT || 4005;
+const port = process.env.PORT || 4000;
 var app = express();
 const sequalize = require("./db/sequalize");
 sequalize
@@ -21,7 +21,7 @@ sequalize
 
 //require("./db/postgres");
 app.use(cors());
-app.use(logger("dev"));
+//app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.get("/getusers", async function (req, res, next) {

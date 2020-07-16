@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendmail = require("../middleware/sendmail");
 const confirmCode = require("../middleware/confirmCode.js");
+const createCode = require("crypto-random-string");
 //const sendSMS = require("../utils/sendSMS.js");
 const Op = require("sequelize").Op;
 const User = require("../db/User");
@@ -17,22 +18,22 @@ module.exports = {
         first_name,
         last_name,
       } = req.body;
-      console.log("in sign up");
       password = bcrypt.hashSync(password, 10);
-      let newUser;
       let created_on = moment().format("MM-DD-YYYY");
-      let signup_time = moment().format("LTS");
-      if (email) {
-        newUser = await User.create({
-          email,
-          password,
-          first_name,
-          last_name,
-          phone_num,
-          created_on,
-        });
-        sendmail(newUser, "verification code");
-      }
+      //let signup_time = moment().format("LTS");
+      let code = createCode({ length: 4 });
+      let newUser = await User.create({
+        email,
+        password,
+        first_name,
+        last_name,
+        phone_num,
+        created_on,
+        confirm_account_code: code,
+      });
+      console.log(code);
+      console.log(newUser.dataValues);
+      sendmail(newUser, "verification code", code);
       res
         .status(200)
         .json({ status: 200, message: "sign up success and code is sent" });
@@ -49,7 +50,8 @@ module.exports = {
           [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
         },
       });
-      if (!user) return next({ status: 400, message: "user not found" });
+      if (!user)
+        return res.status(400).json({ status: 400, message: "user not found" });
       let truePassword = await bcrypt.compareSync(password, user.password);
       if (!truePassword)
         return res
@@ -148,14 +150,9 @@ module.exports = {
     });
     if (!user)
       return res.status(400).json({ status: 400, message: "user not found" });
-    if (code !== user.verification_code)
+    if (code !== user.reset_password_code)
       return res.status(400).json({ status: 400, message: "code is wrong" });
-    if (code == user.verification_code) {
-      let updateUser = await User.update(
-        { is_verified: true },
-        { where: { id: user.id } }
-      );
-      console.log(updateUser);
+    if (code == user.reset_password_code) {
       res.status(200).json({ status: 200, message: "code is true" });
     }
   },
@@ -166,8 +163,11 @@ module.exports = {
         [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],
       },
     });
+    let code = createCode({ length: 4 });
+    user.reset_password_code = code;
+    user.save();
     if (email) {
-      sendmail(user, "your code");
+      sendmail(user, "your code", code);
     }
     res.status(200).json({ status: 200, message: "code is sent" });
   },
@@ -180,9 +180,9 @@ module.exports = {
     });
     if (!user)
       return res.status(400).json({ status: 400, message: "user not found" });
-    if (code !== user.verification_code)
+    if (code !== user.confirm_account_code)
       return res.status(400).json({ status: 400, message: "code is wrong" });
-    if (code == user.verification_code) {
+    if (code == user.confirm_account_code) {
       let updateUser = await User.update(
         { is_verified: true },
         { where: { id: user.id } }
@@ -194,6 +194,7 @@ module.exports = {
   },
   newPassword: async (req, res, next) => {
     let { email, phone_num, code, password } = req.body;
+    console.log(password);
     let user = await User.findOne({
       where: {
         [Op.or]: [{ email: String(email) }, { phone_num: String(phone_num) }],

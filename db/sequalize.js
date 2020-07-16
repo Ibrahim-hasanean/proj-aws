@@ -1,23 +1,22 @@
 const Sequelize = require("sequelize");
-var sequelize = new Sequelize("sec_db", "postgres_admin", "Eng1061995", {
-  host: "sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com",
-  port: 5432,
-  logging: console.log,
-  maxConcurrentQueries: 100,
-  dialect: "postgres",
-  pool: { maxConnections: 5, maxIdleTime: 30 },
-  language: "en",
-  dialectOptions: {
-    ssl: true,
-  },
-});
-
+require("dotenv").config();
+const sequelize = new Sequelize(
+  "postgres://postgres:481997@localhost:5432/postgres"
+);
+// console.log(process.env.PG_PASSWORD);
+// var sequelize = new Sequelize(
+//   `postgres://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`
+// );
+// const { Pool, Client } = require("pg");
+// const pool = new Pool({
+//   user: process.env.PG_USER,
+//   host: process.env.PG_HOST,
+//   database: process.env.PG_DATABASE,
+//   password: process.env.PG_PASSWORD,
+//   port: process.env.PG_PORT,
+// });
+// pool.query("SELECT NOW()", (err, res) => {
+//   console.log(err, res);
+//   pool.end();
+// });
 module.exports = sequelize;
-// /*
-// postgres :
-// PG_USER =  postgres_admin
-// PG_HOST = sec-test-db.cugpacmdjttt.us-east-1.rds.amazonaws.com
-// PG_DATABASE = sec_db
-// PG_PASSWORD = Eng1061995
-// PG_PORT = 5432
-// */

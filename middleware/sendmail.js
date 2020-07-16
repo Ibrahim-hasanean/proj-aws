@@ -1,8 +1,6 @@
 const nodemailer = require("nodemailer");
-const createCode = require("crypto-random-string");
 require("dotenv").config();
-module.exports = async (user, subject) => {
-  let code = createCode({ length: 4 });
+module.exports = async (user, subject, code) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
