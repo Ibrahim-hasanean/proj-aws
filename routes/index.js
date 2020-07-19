@@ -14,8 +14,7 @@ const {
 } = require("../controller/index");
 /* GET home page. */
 router.get("/", async function (req, res, next) {
-  res.send("home");
-  console.log("from home");
+  res.render("index");
 });
 
 router.get("/aboute", async function (req, res, next) {
